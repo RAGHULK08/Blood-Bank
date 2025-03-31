@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login/Sign Up - Blood Bank System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #e74c3c;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background: #c0392b;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .toggle-buttons {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-buttons button {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .toggle-buttons button:hover {
+            background: #c0392b;
+        }
+
+        form {
+            margin-top: 1rem;
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0 0.2rem;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button.submit-btn {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button.submit-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Blood Bank System</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="donor.html">Donor Home</a>
+        <a href="receiver.html">Receiver Home</a>
+    </nav>
+
+    <div class="container">
+        <div class="toggle-buttons">
+            <button id="loginTab" onclick="showLogin()">Login</button>
+            <button id="signupTab" onclick="showSignup()">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginFormContainer">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" placeholder="Enter email" required>
+
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" placeholder="Enter password" required>
+
+                <label for="loginRole">Role:</label>
+                <select id="loginRole" required>
+                    <option value="">Select Role</option>
+                    <option value="donor">Donor</option>
+                    <option value="receiver">Receiver</option>
+                </select>
+
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupFormContainer" style="display:none;">
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <label for="signupEmail">Email:</label>
+                <input type="email" id="signupEmail" placeholder="Enter email" required>
+
+                <label for="signupPassword">Password:</label>
+                <input type="password" id="signupPassword" placeholder="Choose a password" required>
+
+                <label for="signupRole">Role:</label>
+                <select id="signupRole" required>
+                    <option value="">Select Role</option>
+                    <option value="donor">Donor</option>
+                    <option value="receiver">Receiver</option>
+                </select>
+
+                <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global array to simulate a user database with email-based login
+        const users = [
+            // Pre-existing demo users
+            { email: 'donor@example.com', password: 'donor123', role: 'donor' },
+            { email: 'receiver@example.com', password: 'receiver123', role: 'receiver' }
+        ];
+
+        // Toggle display of Login and Sign Up forms
+        function showLogin() {
+            document.getElementById('loginFormContainer').style.display = 'block';
+            document.getElementById('signupFormContainer').style.display = 'none';
+        }
+
+        function showSignup() {
+            document.getElementById('loginFormContainer').style.display = 'none';
+            document.getElementById('signupFormContainer').style.display = 'block';
+        }
+
+        // Login form submission handler
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const role = document.getElementById('loginRole').value;
+
+            const user = users.find(u => u.email === email && u.password === password && u.role === role);
+
+            if (user) {
+                alert(`Login successful as ${role}!`);
+                // Redirect based on role
+                if (role === 'donor') {
+                    window.location.href = 'donor.html';
+                } else if (role === 'receiver') {
+                    window.location.href = 'receiver.html';
+                }
+            } else {
+                alert('Invalid credentials. Please try again or sign up if you are a new user.');
+            }
+        });
+
+        // Sign Up form submission handler
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const role = document.getElementById('signupRole').value;
+
+            // Check if the email is already registered for that role
+            const existingUser = users.find(u => u.email === email && u.role === role);
+            if (existingUser) {
+                alert('A user with this email and role already exists. Please log in.');
+                return;
+            }
+
+            // Add new user to the simulated database
+            users.push({ email, password, role });
+            alert('Sign up successful! You can now log in with your credentials.');
+
+            // Switch to the login form after successful sign up
+            showLogin();
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Receiver Home - Blood Bank System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #e74c3c;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background: #c0392b;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        section {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: #e74c3c;
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.3rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #c0392b;
+        }
+
+        #inventoryDisplay ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #inventoryDisplay li {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Receiver Home</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="donor.html">Donor Home</a>
+    </nav>
+    <div class="container">
+        <!-- Request Blood Section -->
+        <section>
+            <h2>Request Blood</h2>
+            <form id="receiverForm">
+                <label for="patientName">Patient Name:</label>
+                <input type="text" id="patientName" placeholder="Enter patient name" required>
+
+                <label for="requestBloodGroup">Required Blood Group:</label>
+                <select id="requestBloodGroup">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
+
+                <label for="patientContact">Contact:</label>
+                <input type="text" id="patientContact" placeholder="Enter contact number" required>
+
+                <button type="submit">Request Blood</button>
+            </form>
+        </section>
+
+        <!-- Available Blood Inventory Section -->
+        <section>
+            <h2>Available Blood Inventory</h2>
+            <div id="inventoryDisplay">
+                <!-- Inventory details will be dynamically updated here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Simulated blood inventory data
+        const bloodInventory = {
+            "A+": 10,
+            "A-": 5,
+            "B+": 8,
+            "B-": 4,
+            "O+": 15,
+            "O-": 7,
+            "AB+": 3,
+            "AB-": 2
+        };
+
+        // Update the inventory display on the page
+        function updateInventoryDisplay() {
+            let displayHtml = '<ul>';
+            for (let group in bloodInventory) {
+                displayHtml += `<li><strong>${group}</strong>: ${bloodInventory[group]} units available</li>`;
+            }
+            displayHtml += '</ul>';
+            document.getElementById("inventoryDisplay").innerHTML = displayHtml;
+        }
+
+        // Request blood form handler
+        document.getElementById('receiverForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const patientName = document.getElementById('patientName').value.trim();
+            const requestBloodGroup = document.getElementById('requestBloodGroup').value;
+            const patientContact = document.getElementById('patientContact').value.trim();
+
+            if (bloodInventory[requestBloodGroup] > 0) {
+                bloodInventory[requestBloodGroup]--;
+                alert(`Blood requested for ${patientName} (Blood Group: ${requestBloodGroup}). We will contact you soon.`);
+            } else {
+                alert(`Sorry, blood group ${requestBloodGroup} is not available at the moment.`);
+            }
+            this.reset();
+            updateInventoryDisplay();
+        });
+
+        // Initialize the inventory display when the page loads
+        updateInventoryDisplay();
+    </script>
+</body>
+
+</html>
