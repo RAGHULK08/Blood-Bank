@@ -658,6 +658,29 @@
             }
         }
 
+        function notifyNearbyDonors(city, bloodGroup) {
+            // Simulated donor database (replace with actual database query)
+            const donors = [
+                { name: "Donor 1", city: "Chennai", bloodGroup: "A+", contact: "1234567890" },
+                { name: "Donor 2", city: "Chennai", bloodGroup: "O-", contact: "9876543210" },
+                { name: "Donor 3", city: "Coimbatore", bloodGroup: "B+", contact: "5678901234" },
+                { name: "Donor 4", city: "Chennai", bloodGroup: "A+", contact: "4567890123" },
+            ];
+
+            const nearbyDonors = donors.filter(donor => donor.city === city && donor.bloodGroup === bloodGroup);
+
+            if (nearbyDonors.length > 0) {
+                console.log(`Sending notification to nearby donors in ${city} with blood group ${bloodGroup}:`);
+                nearbyDonors.forEach(donor => {
+                    // In a real application, you would send an SMS, email, or push notification
+                    console.log(`Sending message to ${donor.name} at ${donor.contact}`);
+                    alert(`Urgent Blood Request: ${donor.name}, there is a request for ${bloodGroup} blood in ${city}. Please contact the blood bank.`);
+                });
+            } else {
+                console.log(`No donors found in ${city} with blood group ${bloodGroup}.`);
+            }
+        }
+
         // Request blood form handler
         document.getElementById('receiverForm').addEventListener('submit', function (e) {
             e.preventDefault();
@@ -690,7 +713,8 @@
                 // In a real application, you would identify the specific hospital and reduce the count there.
                 alert(`Blood group ${requestBloodGroup} is available at ${hospitalWithBlood} in ${cityWithBlood}. We will contact you soon.`);
             } else {
-                alert(`Sorry, blood group ${requestBloodGroup} is not available at ${requestHospital} in ${requestCity} at the moment.`);
+                alert(`Sorry, blood group ${requestBloodGroup} is not available at ${requestHospital} in ${requestCity} at the moment.  Nearby donors are being notified.`);
+                notifyNearbyDonors(requestCity, requestBloodGroup);
             }
 
             this.reset();
