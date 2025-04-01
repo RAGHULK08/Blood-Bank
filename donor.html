@@ -509,6 +509,29 @@
             }
         }
 
+        function notifyNearbyDonors(city, bloodGroup) {
+            // Simulated donor database (replace with actual database query)
+            const donors = [
+                { name: "Donor 1", city: "Chennai", bloodGroup: "A+", contact: "1234567890" },
+                { name: "Donor 2", city: "Chennai", bloodGroup: "O-", contact: "9876543210" },
+                { name: "Donor 3", city: "Coimbatore", bloodGroup: "B+", contact: "5678901234" },
+                { name: "Donor 4", city: "Chennai", bloodGroup: "A+", contact: "4567890123" },
+            ];
+
+            const nearbyDonors = donors.filter(donor => donor.city === city && donor.bloodGroup === bloodGroup);
+
+            if (nearbyDonors.length > 0) {
+                console.log(`Sending notification to nearby donors in ${city} with blood group ${bloodGroup}:`);
+                nearbyDonors.forEach(donor => {
+                    // In a real application, you would send an SMS, email, or push notification
+                    console.log(`Sending message to ${donor.name} at ${donor.contact}`);
+                    alert(`Urgent Blood Request: ${donor.name}, there is a request for ${bloodGroup} blood in ${city}. Please contact the blood bank.`);
+                });
+            } else {
+                console.log(`No donors found in ${city} with blood group ${bloodGroup}.`);
+            }
+        }
+
         document.getElementById('donorForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -530,7 +553,19 @@
             localStorage.setItem('donationHistory', JSON.stringify(donationHistory));
             displayDonationHistory();
 
-            alert(`Thank you, ${donorName}! We have received your blood donation request. We will contact you soon.`);
+            // Simulate checking blood availability and notifying nearby donors
+            setTimeout(() => {
+                // Simulate a check for blood availability (replace with actual database query)
+                const bloodAvailable = Math.random() < 0.8; // Assume 80% chance of blood being available
+
+                if (!bloodAvailable) {
+                    notifyNearbyDonors(donorCity, donorBloodGroup);
+                    alert(`Thank you, ${donorName}! We have received your blood donation request.  Unfortunately, the required blood type is currently unavailable.  Nearby donors have been notified.`);
+                }
+                else {
+                    alert(`Thank you, ${donorName}! We have received your blood donation request. We will contact you soon.`);
+                }
+            }, 2000);
 
             this.reset();
         });
