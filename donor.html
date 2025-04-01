@@ -3,117 +3,567 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Donor Home - Blood Bank System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFESAFE BLOOD BANK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         header {
-            background: #e74c3c;
-            color: #fff;
-            padding: 1rem;
+            background-color: #e74c3c;
+            color: white;
+            padding: 1rem 0;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        header img {
+            margin-right: 10px;
+            height: 100px;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         nav {
-            background: #c0392b;
-            padding: 0.5rem;
+            background-color: #c0392b;
+            padding: 0.5rem 0;
             text-align: center;
+            border-bottom: 1px solid #b03a2e;
         }
 
         nav a {
-            color: #fff;
+            color: white;
             text-decoration: none;
-            margin: 0 1rem;
-            font-weight: bold;
+            margin: 0 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #a93226;
+            transform: scale(1.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.5s ease-out, fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         section {
-            background: #fff;
-            margin: 2rem auto;
-            padding: 1rem;
-            max-width: 600px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
         }
 
-        label {
-            display: block;
-            margin: 0.5rem 0;
+        h2 {
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-align: center;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 0.5rem;
         }
 
-        input,
-        select {
-            width: 100%;
-            padding: 0.5rem;
-            margin-top: 0.3rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #555;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        button {
-            background: #e74c3c;
-            color: #fff;
-            border: none;
-            padding: 0.7rem 1.5rem;
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li::before {
+            content: '🩸';
+            margin-right: 10px;
+        }
+
+        ul li {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #555;
+            animation: slideInLeft 0.3s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
             margin-top: 1rem;
-            border-radius: 4px;
-            cursor: pointer;
+            animation: pulse 2s infinite;
         }
 
-        button:hover {
-            background: #c0392b;
+        .cta-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid #34495e;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .alert {
+            background-color: #f0f0f0;
+            border-left: 5px solid #e74c3c;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .alert-danger {
+            background-color: #ffe1e1;
+            border-left: 5px solid #e74c3c;
+            color: #e74c3c;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav a {
+                font-size: 1rem;
+                margin: 0 1rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            ul li {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        /* Form Styles */
+        form {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        form input:focus,
+        form select:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+        }
+
+        form button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        form button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            animation: shake 0.5s;
+        }
+
+        /* Donation History Styles */
+        #donationHistory {
+            margin-top: 1.5rem;
+        }
+
+        #donationHistory h3 {
+            color: #e74c3c;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 0.5rem;
+        }
+
+        #donationHistory ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #donationHistory ul li {
+            background-color: #f8f8f8;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1.1rem;
+            color: #555;
+            animation: slideInLeft 0.3s ease-out;
+            border-left: 4px solid #e74c3c;
+        }
+
+        #donationHistory ul li:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        #donationHistory .no-history {
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.1rem;
+            color: #555;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 1rem;
+            background-color: #f8f8f8;
+            animation: fadeIn 0.5s ease-in-out;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Donor Home</h1>
+        <img src="lifesafe.jpeg" alt="LIFESAFE BLOOD BANK Logo" height="100">
+        <h1>LIFESAFE BLOOD BANK</h1>
     </header>
     <nav>
         <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-        <a href="receiver.html">Receiver Home</a>
     </nav>
-    <section>
-        <h2>Register as a Donor</h2>
-        <form id="donorForm">
-            <label for="donorName">Name:</label>
-            <input type="text" id="donorName" placeholder="Enter your name" required>
+    <div class="container">
+        <section>
+            <h2>Donate Blood</h2>
+            <form id="donorForm">
+                <label for="donorName">Donor Name:</label>
+                <input type="text" id="donorName" placeholder="Enter your name" required>
 
-            <label for="bloodGroup">Blood Group:</label>
-            <select id="bloodGroup">
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-            </select>
+                <label for="donorCity">City:</label>
+                <select id="donorCity" required>
+                    <option value="">Select City</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Coimbatore">Coimbatore</option>
+                    <option value="Madurai">Madurai</option>
+                    <option value="Chengalpattu">Chengalpattu</option>
+                </select>
 
-            <label for="donorContact">Contact:</label>
-            <input type="text" id="donorContact" placeholder="Enter contact number" required>
+                <label for="donorHospital">Hospital:</label>
+                <select id="donorHospital" required>
+                    <option value="">Select Hospital</option>
+                </select>
 
-            <button type="submit">Register Donor</button>
-        </form>
-    </section>
+                <label for="donorBloodGroup">Blood Group:</label>
+                <select id="donorBloodGroup">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
+
+                <label for="donorContact">Contact:</label>
+                <input type="text" id="donorContact" placeholder="Enter your contact number" required>
+
+                <button type="submit">Donate Blood</button>
+            </form>
+        </section>
+        <section id="donationRequests">
+            <h3>Donation Requests</h3>
+            <ul id="donationRequestList">
+                <li>Loading requests...</li>
+            </ul>
+        </section>
+        <section id="donationHistory">
+            <h3>Your Donation History</h3>
+            <ul id="donationHistoryList">
+                <li>No donations yet.</li>
+            </ul>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2024 LIFESAFE BLOOD BANK. All rights reserved.</p>
+    </footer>
     <script>
+        const hospitalOptions = {
+            "Chennai": [
+                "Apollo Hospitals Chennai",
+                "Fortis Malar Hospital"
+            ],
+            "Coimbatore": [
+                "KG Hospital",
+                "PSG Hospitals"
+            ],
+            "Madurai": [
+                "Apollo Hospitals Madurai",
+                "Meenakshi Mission Hospital"
+            ],
+            "Chengalpattu": [
+                "Chengalpattu Medical College Hospital"
+            ]
+        };
+
+        function populateHospitals(selectedCity) {
+            const hospitalDropdown = document.getElementById("donorHospital");
+            hospitalDropdown.innerHTML = '<option value="">Select Hospital</option>';
+
+            if (selectedCity && hospitalOptions[selectedCity]) {
+                hospitalOptions[selectedCity].forEach(hospital => {
+                    let option = document.createElement("option");
+                    option.value = hospital;
+                    option.textContent = hospital;
+                    hospitalDropdown.appendChild(option);
+                });
+                hospitalDropdown.disabled = false;
+            } else {
+                hospitalDropdown.disabled = true;
+            }
+        }
+
+        document.getElementById('donorCity').addEventListener('change', function () {
+            const selectedCity = this.value;
+            populateHospitals(selectedCity);
+        });
+
+        let donationHistory = JSON.parse(localStorage.getItem('donationHistory')) || [];
+        const donationHistoryList = document.getElementById('donationHistoryList');
+
+        function displayDonationHistory() {
+            donationHistoryList.innerHTML = '';
+            if (donationHistory.length === 0) {
+                donationHistoryList.innerHTML = '<li class="no-history">No donations yet.</li>';
+            } else {
+                donationHistory.forEach(donation => {
+                    let listItem = document.createElement("li");
+                    listItem.innerHTML = `You donated ${donation.bloodGroup} blood at ${donation.hospital} in ${donation.city} on ${donation.date}.`;
+                    donationHistoryList.appendChild(listItem);
+                });
+            }
+        }
+
         document.getElementById('donorForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            const donorName = document.getElementById('donorName').value;
-            const bloodGroup = document.getElementById('bloodGroup').value;
-            const donorContact = document.getElementById('donorContact').value;
 
-            alert(`Thank you ${donorName} for registering as a donor with blood group ${bloodGroup}.`);
+            const donorName = document.getElementById('donorName').value.trim();
+            const donorCity = document.getElementById('donorCity').value;
+            const donorHospital = document.getElementById('donorHospital').value;
+            const donorBloodGroup = document.getElementById('donorBloodGroup').value;
+            const donorContact = document.getElementById('donorContact').value.trim();
+
+            const donationDate = new Date().toLocaleDateString();
+            donationHistory.push({
+                name: donorName,
+                city: donorCity,
+                hospital: donorHospital,
+                bloodGroup: donorBloodGroup,
+                date: donationDate
+            });
+
+            localStorage.setItem('donationHistory', JSON.stringify(donationHistory));
+            displayDonationHistory();
+
+            alert(`Thank you, ${donorName}! We have received your blood donation request. We will contact you soon.`);
+
             this.reset();
         });
+
+        function fetchDonationRequests() {
+            const donationRequestList = document.getElementById("donationRequestList");
+            donationRequestList.innerHTML = "<li>Loading requests...</li>";
+
+            setTimeout(() => {
+                const simulatedRequests = [
+                    { name: "Patient A", city: "Chennai", hospital: "Apollo Hospitals Chennai", bloodGroup: "A+" },
+                    { name: "Patient B", city: "Coimbatore", hospital: "KG Hospital", bloodGroup: "O-" },
+                    { name: "Patient C", city: "Madurai", hospital: "Meenakshi Mission Hospital", bloodGroup: "B+" },
+                    { name: "Patient D", city: "Chengalpattu", hospital: "Chengalpattu Medical College Hospital", bloodGroup: "AB+" },
+                ];
+
+                donationRequestList.innerHTML = "";
+                if (simulatedRequests.length === 0) {
+                    donationRequestList.innerHTML = "<li>No donation requests at this time.</li>";
+                } else {
+                    simulatedRequests.forEach(request => {
+                        let listItem = document.createElement("li");
+                        listItem.innerHTML = `${request.name} from ${request.city}, ${request.hospital} needs ${request.bloodGroup} blood.`;
+                        donationRequestList.appendChild(listItem);
+                    });
+                }
+            }, 1500);
+        }
+
+        populateHospitals("Chennai");
+        fetchDonationRequests();
+        setInterval(fetchDonationRequests, 5000);
+        displayDonationHistory();
     </script>
 </body>
 
