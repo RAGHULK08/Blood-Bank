@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIFESAFE BLOOD BANK</title>
+    <link rel="icon" href="lifesafe.jpeg" type="image/jpeg">
+    <title>LIFESAFE</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -33,11 +34,8 @@
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
-            /* Added for vertical centering */
             align-items: center;
-            /* Added for vertical centering */
             justify-content: center;
-            /* Added for horizontal centering */
         }
 
         header h1 {
@@ -49,9 +47,7 @@
 
         header img {
             margin-right: 10px;
-            /* Adjust spacing between logo and heading */
             height: 100px;
-            /* Consistent height with other pages */
         }
 
         @keyframes slideInDown {
@@ -268,10 +264,7 @@
                 font-size: 1.75rem;
             }
 
-            p {
-                font-size: 1rem;
-            }
-
+            p,
             ul li {
                 font-size: 1rem;
             }
@@ -471,6 +464,15 @@
                 <label for="patientContact">Contact:</label>
                 <input type="text" id="patientContact" placeholder="Enter contact number" required>
 
+                <!-- New Quantity Field -->
+                <label for="requestQuantity">Quantity (ml):</label>
+                <select id="requestQuantity" required>
+                    <option value="">Select Quantity</option>
+                    <option value="250">250 ml</option>
+                    <option value="350">350 ml</option>
+                    <option value="500">500 ml</option>
+                </select>
+
                 <button type="submit">Request Blood</button>
             </form>
         </section>
@@ -484,111 +486,98 @@
         <p>&copy; 2024 LIFESAFE BLOOD BANK. All rights reserved.</p>
     </footer>
     <script>
-        // Simulated initial blood inventory data for Tamil Nadu Hospitals
+        // Update bloodInventory values to ml (conversion factor: 350 ml per unit)
         let bloodInventory = {
             "Chennai": {
                 "Apollo Hospitals Chennai": {
-                    "A+": 12,
-                    "A-": 6,
-                    "B+": 9,
-                    "B-": 5,
-                    "O+": 18,
-                    "O-": 8,
-                    "AB+": 4,
-                    "AB-": 3
+                    "A+": 4200,
+                    "A-": 2100,
+                    "B+": 3150,
+                    "B-": 1750,
+                    "O+": 6300,
+                    "O-": 2800,
+                    "AB+": 1400,
+                    "AB-": 1050
                 },
                 "Fortis Malar Hospital": {
-                    "A+": 10,
-                    "A-": 4,
-                    "B+": 7,
-                    "B-": 3,
-                    "O+": 12,
-                    "O-": 6,
-                    "AB+": 2,
-                    "AB-": 1
+                    "A+": 3500,
+                    "A-": 1400,
+                    "B+": 2450,
+                    "B-": 1050,
+                    "O+": 4200,
+                    "O-": 2100,
+                    "AB+": 700,
+                    "AB-": 350
                 }
             },
             "Coimbatore": {
                 "KG Hospital": {
-                    "A+": 8,
-                    "A-": 3,
-                    "B+": 6,
-                    "B-": 2,
-                    "O+": 10,
-                    "O-": 5,
-                    "AB+": 1,
+                    "A+": 2800,
+                    "A-": 1050,
+                    "B+": 2100,
+                    "B-": 700,
+                    "O+": 3500,
+                    "O-": 1750,
+                    "AB+": 350,
                     "AB-": 0
                 },
                 "PSG Hospitals": {
-                    "A+": 11,
-                    "A-": 5,
-                    "B+": 8,
-                    "B-": 4,
-                    "O+": 14,
-                    "O-": 7,
-                    "AB+": 3,
-                    "AB-": 2
+                    "A+": 3850,
+                    "A-": 1750,
+                    "B+": 2800,
+                    "B-": 1400,
+                    "O+": 4900,
+                    "O-": 2450,
+                    "AB+": 1050,
+                    "AB-": 700
                 }
             },
             "Madurai": {
                 "Apollo Hospitals Madurai": {
-                    "A+": 9,
-                    "A-": 4,
-                    "B+": 7,
-                    "B-": 3,
-                    "O+": 11,
-                    "O-": 6,
-                    "AB+": 2,
-                    "AB-": 1
+                    "A+": 3150,
+                    "A-": 1400,
+                    "B+": 2450,
+                    "B-": 1050,
+                    "O+": 3850,
+                    "O-": 2100,
+                    "AB+": 700,
+                    "AB-": 350
                 },
                 "Meenakshi Mission Hospital": {
-                    "A+": 7,
-                    "A-": 2,
-                    "B+": 5,
-                    "B-": 1,
-                    "O+": 9,
-                    "O-": 4,
+                    "A+": 2450,
+                    "A-": 700,
+                    "B+": 1750,
+                    "B-": 350,
+                    "O+": 3150,
+                    "O-": 1400,
                     "AB+": 0,
                     "AB-": 0
                 }
             },
             "Chengalpattu": {
                 "Chengalpattu Medical College Hospital": {
-                    "A+": 10,
-                    "A-": 5,
-                    "B+": 8,
-                    "B-": 4,
-                    "O+": 15,
-                    "O-": 7,
-                    "AB+": 3,
-                    "AB-": 2
+                    "A+": 3500,
+                    "A-": 1750,
+                    "B+": 2800,
+                    "B-": 1400,
+                    "O+": 5250,
+                    "O-": 2450,
+                    "AB+": 1050,
+                    "AB-": 700
                 }
             }
         };
 
         const hospitalOptions = {
-            "Chennai": [
-                "Apollo Hospitals Chennai",
-                "Fortis Malar Hospital"
-            ],
-            "Coimbatore": [
-                "KG Hospital",
-                "PSG Hospitals"
-            ],
-            "Madurai": [
-                "Apollo Hospitals Madurai",
-                "Meenakshi Mission Hospital"
-            ],
-            "Chengalpattu": [
-                "Chengalpattu Medical College Hospital"
-            ]
+            "Chennai": ["Apollo Hospitals Chennai", "Fortis Malar Hospital"],
+            "Coimbatore": ["KG Hospital", "PSG Hospitals"],
+            "Madurai": ["Apollo Hospitals Madurai", "Meenakshi Mission Hospital"],
+            "Chengalpattu": ["Chengalpattu Medical College Hospital"]
         };
 
-        // Function to populate hospitals based on the selected city
         function populateHospitals(selectedCity) {
             const hospitalDropdown = document.getElementById("requestHospital");
-            hospitalDropdown.innerHTML = '<option value="">Select Hospital</option>'; // Clear previous options
-
+            hospitalDropdown.innerHTML = '<option value="">Select Hospital</option>';
             if (selectedCity && hospitalOptions[selectedCity]) {
                 hospitalOptions[selectedCity].forEach(hospital => {
                     let option = document.createElement("option");
@@ -602,23 +591,19 @@
             }
         }
 
-        // Event listener for the city dropdown
         document.getElementById('requestCity').addEventListener('change', function () {
             const selectedCity = this.value;
             populateHospitals(selectedCity);
         });
 
-        // Function to simulate fetching real-time inventory data
         function fetchBloodInventory() {
             return new Promise(resolve => {
-                // Simulate API call delay
                 setTimeout(() => {
-                    // Simulate dynamic updates
                     const randomFluctuation = () => Math.floor(Math.random() * 3) - 1;
                     for (let city in bloodInventory) {
                         for (let hospital in bloodInventory[city]) {
                             for (let group in bloodInventory[city][hospital]) {
-                                bloodInventory[city][hospital][group] = Math.max(0, bloodInventory[city][hospital][group] + randomFluctuation());
+                                bloodInventory[city][hospital][group] = Math.max(0, bloodInventory[city][hospital][group] + randomFluctuation() * 350);
                             }
                         }
                     }
@@ -627,22 +612,21 @@
             });
         }
 
-        // Function to update the inventory display on the page
         function updateInventoryDisplay(inventoryData) {
             let displayHtml = '<table>';
-            displayHtml += '<thead><tr><th>City</th><th>Hospital</th><th>Blood Group</th><th>Units Available</th></tr></thead>';
+            displayHtml += '<thead><tr><th>City</th><th>Hospital</th><th>Blood Group</th><th>Quantity (ml)</th></tr></thead>';
             displayHtml += '<tbody>';
             for (let city in inventoryData) {
                 for (let hospital in inventoryData[city]) {
                     for (let group in inventoryData[city][hospital]) {
                         displayHtml += `
-                            <tr>
-                                <td data-title="City">${city}</td>
-                                <td data-title="Hospital">${hospital}</td>
-                                <td data-title="Blood Group">${group}</td>
-                                <td data-title="Units Available">${inventoryData[city][hospital][group]}</td>
-                            </tr>
-                        `;
+              <tr>
+                <td data-title="City">${city}</td>
+                <td data-title="Hospital">${hospital}</td>
+                <td data-title="Blood Group">${group}</td>
+                <td data-title="Quantity (ml)">${inventoryData[city][hospital][group]} ml</td>
+              </tr>
+            `;
                     }
                 }
             }
@@ -659,20 +643,16 @@
         }
 
         function notifyNearbyDonors(city, bloodGroup) {
-            // Simulated donor database (replace with actual database query)
             const donors = [
                 { name: "Donor 1", city: "Chennai", bloodGroup: "A+", contact: "1234567890" },
                 { name: "Donor 2", city: "Chennai", bloodGroup: "O-", contact: "9876543210" },
                 { name: "Donor 3", city: "Coimbatore", bloodGroup: "B+", contact: "5678901234" },
-                { name: "Donor 4", city: "Chennai", bloodGroup: "A+", contact: "4567890123" },
+                { name: "Donor 4", city: "Chennai", bloodGroup: "A+", contact: "4567890123" }
             ];
-
             const nearbyDonors = donors.filter(donor => donor.city === city && donor.bloodGroup === bloodGroup);
-
             if (nearbyDonors.length > 0) {
                 console.log(`Sending notification to nearby donors in ${city} with blood group ${bloodGroup}:`);
                 nearbyDonors.forEach(donor => {
-                    // In a real application, you would send an SMS, email, or push notification
                     console.log(`Sending message to ${donor.name} at ${donor.contact}`);
                     alert(`Urgent Blood Request: ${donor.name}, there is a request for ${bloodGroup} blood in ${city}. Please contact the blood bank.`);
                 });
@@ -681,7 +661,6 @@
             }
         }
 
-        // Request blood form handler
         document.getElementById('receiverForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const patientName = document.getElementById('patientName').value.trim();
@@ -689,12 +668,11 @@
             const requestHospital = document.getElementById('requestHospital').value;
             const requestBloodGroup = document.getElementById('requestBloodGroup').value;
             const patientContact = document.getElementById('patientContact').value.trim();
+            const requestQuantity = document.getElementById('requestQuantity').value;
 
             let bloodAvailable = false;
             let hospitalWithBlood = '';
             let cityWithBlood = '';
-
-            // Find if the requested blood group is available
             for (let city in bloodInventory) {
                 for (let hospital in bloodInventory[city]) {
                     if (hospital === requestHospital) {
@@ -702,29 +680,24 @@
                             bloodAvailable = true;
                             hospitalWithBlood = hospital;
                             cityWithBlood = city;
-                            break; // Exit the loop once found
+                            break;
                         }
                     }
                 }
-                if (bloodAvailable) break; // Exit the outer loop as well
+                if (bloodAvailable) break;
             }
-
             if (bloodAvailable) {
-                // In a real application, you would identify the specific hospital and reduce the count there.
-                alert(`Blood group ${requestBloodGroup} is available at ${hospitalWithBlood} in ${cityWithBlood}. We will contact you soon.`);
+                alert(`Blood group ${requestBloodGroup} (${requestQuantity} ml) is available at ${hospitalWithBlood} in ${cityWithBlood}. We will contact you soon.`);
             } else {
-                alert(`Sorry, blood group ${requestBloodGroup} is not available at ${requestHospital} in ${requestCity} at the moment.  Nearby donors are being notified.`);
+                alert(`Sorry, blood group ${requestBloodGroup} (${requestQuantity} ml) is not available at ${requestHospital} in ${requestCity} at the moment. Nearby donors are being notified.`);
                 notifyNearbyDonors(requestCity, requestBloodGroup);
             }
-
             this.reset();
             fetchBloodInventory().then(updateInventoryDisplay);
         });
 
-        // Initial inventory load and start dynamic updates
         fetchBloodInventory().then(initialInventoryData => {
             updateInventoryDisplay(initialInventoryData);
-            // Populate hospitals dropdown on initial load (default to Chennai)
             populateHospitals("Chennai");
             setInterval(() => {
                 fetchBloodInventory().then(updateInventoryDisplay);
