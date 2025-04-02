@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIFESAFE BLOOD BANK</title>
+    <link rel="icon" href="lifesafe.jpeg" type="image/jpeg">
+    <title>LIFESAFE</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -263,10 +264,7 @@
                 font-size: 1.75rem;
             }
 
-            p {
-                font-size: 1rem;
-            }
-
+            p,
             ul li {
                 font-size: 1rem;
             }
@@ -433,6 +431,14 @@
                 <label for="donorContact">Contact:</label>
                 <input type="text" id="donorContact" placeholder="Enter your contact number" required>
 
+                <label for="donationQuantity">Donation Quantity (ml):</label>
+                <select id="donationQuantity" required>
+                    <option value="">Select Donation Quantity</option>
+                    <option value="250">250 ml (Recommended if weight &lt; 50kg)</option>
+                    <option value="350">350 ml (Recommended if weight 50-70kg)</option>
+                    <option value="500">500 ml (Recommended if weight &gt; 70kg)</option>
+                </select>
+
                 <button type="submit">Donate Blood</button>
             </form>
         </section>
@@ -454,27 +460,15 @@
     </footer>
     <script>
         const hospitalOptions = {
-            "Chennai": [
-                "Apollo Hospitals Chennai",
-                "Fortis Malar Hospital"
-            ],
-            "Coimbatore": [
-                "KG Hospital",
-                "PSG Hospitals"
-            ],
-            "Madurai": [
-                "Apollo Hospitals Madurai",
-                "Meenakshi Mission Hospital"
-            ],
-            "Chengalpattu": [
-                "Chengalpattu Medical College Hospital"
-            ]
+            "Chennai": ["Apollo Hospitals Chennai", "Fortis Malar Hospital"],
+            "Coimbatore": ["KG Hospital", "PSG Hospitals"],
+            "Madurai": ["Apollo Hospitals Madurai", "Meenakshi Mission Hospital"],
+            "Chengalpattu": ["Chengalpattu Medical College Hospital"]
         };
 
         function populateHospitals(selectedCity) {
             const hospitalDropdown = document.getElementById("donorHospital");
             hospitalDropdown.innerHTML = '<option value="">Select Hospital</option>';
-
             if (selectedCity && hospitalOptions[selectedCity]) {
                 hospitalOptions[selectedCity].forEach(hospital => {
                     let option = document.createElement("option");
@@ -503,27 +497,23 @@
             } else {
                 donationHistory.forEach(donation => {
                     let listItem = document.createElement("li");
-                    listItem.innerHTML = `You donated ${donation.bloodGroup} blood at ${donation.hospital} in ${donation.city} on ${donation.date}.`;
+                    listItem.innerHTML = `You donated ${donation.quantity} ml of ${donation.bloodGroup} blood at ${donation.hospital} in ${donation.city} on ${donation.date}.`;
                     donationHistoryList.appendChild(listItem);
                 });
             }
         }
 
         function notifyNearbyDonors(city, bloodGroup) {
-            // Simulated donor database (replace with actual database query)
             const donors = [
                 { name: "Donor 1", city: "Chennai", bloodGroup: "A+", contact: "1234567890" },
                 { name: "Donor 2", city: "Chennai", bloodGroup: "O-", contact: "9876543210" },
                 { name: "Donor 3", city: "Coimbatore", bloodGroup: "B+", contact: "5678901234" },
-                { name: "Donor 4", city: "Chennai", bloodGroup: "A+", contact: "4567890123" },
+                { name: "Donor 4", city: "Chennai", bloodGroup: "A+", contact: "4567890123" }
             ];
-
             const nearbyDonors = donors.filter(donor => donor.city === city && donor.bloodGroup === bloodGroup);
-
             if (nearbyDonors.length > 0) {
                 console.log(`Sending notification to nearby donors in ${city} with blood group ${bloodGroup}:`);
                 nearbyDonors.forEach(donor => {
-                    // In a real application, you would send an SMS, email, or push notification
                     console.log(`Sending message to ${donor.name} at ${donor.contact}`);
                     alert(`Urgent Blood Request: ${donor.name}, there is a request for ${bloodGroup} blood in ${city}. Please contact the blood bank.`);
                 });
@@ -540,6 +530,7 @@
             const donorHospital = document.getElementById('donorHospital').value;
             const donorBloodGroup = document.getElementById('donorBloodGroup').value;
             const donorContact = document.getElementById('donorContact').value.trim();
+            const donationQuantity = document.getElementById('donationQuantity').value;
 
             const donationDate = new Date().toLocaleDateString();
             donationHistory.push({
@@ -547,22 +538,19 @@
                 city: donorCity,
                 hospital: donorHospital,
                 bloodGroup: donorBloodGroup,
+                quantity: donationQuantity,
                 date: donationDate
             });
 
             localStorage.setItem('donationHistory', JSON.stringify(donationHistory));
             displayDonationHistory();
 
-            // Simulate checking blood availability and notifying nearby donors
             setTimeout(() => {
-                // Simulate a check for blood availability (replace with actual database query)
-                const bloodAvailable = Math.random() < 0.8; // Assume 80% chance of blood being available
-
+                const bloodAvailable = Math.random() < 0.8;
                 if (!bloodAvailable) {
                     notifyNearbyDonors(donorCity, donorBloodGroup);
-                    alert(`Thank you, ${donorName}! We have received your blood donation request.  Unfortunately, the required blood type is currently unavailable.  Nearby donors have been notified.`);
-                }
-                else {
+                    alert(`Thank you, ${donorName}! We have received your blood donation request. Unfortunately, the required blood type is currently unavailable. Nearby donors have been notified.`);
+                } else {
                     alert(`Thank you, ${donorName}! We have received your blood donation request. We will contact you soon.`);
                 }
             }, 2000);
@@ -573,15 +561,13 @@
         function fetchDonationRequests() {
             const donationRequestList = document.getElementById("donationRequestList");
             donationRequestList.innerHTML = "<li>Loading requests...</li>";
-
             setTimeout(() => {
                 const simulatedRequests = [
                     { name: "Patient A", city: "Chennai", hospital: "Apollo Hospitals Chennai", bloodGroup: "A+" },
                     { name: "Patient B", city: "Coimbatore", hospital: "KG Hospital", bloodGroup: "O-" },
                     { name: "Patient C", city: "Madurai", hospital: "Meenakshi Mission Hospital", bloodGroup: "B+" },
-                    { name: "Patient D", city: "Chengalpattu", hospital: "Chengalpattu Medical College Hospital", bloodGroup: "AB+" },
+                    { name: "Patient D", city: "Chengalpattu", hospital: "Chengalpattu Medical College Hospital", bloodGroup: "AB+" }
                 ];
-
                 donationRequestList.innerHTML = "";
                 if (simulatedRequests.length === 0) {
                     donationRequestList.innerHTML = "<li>No donation requests at this time.</li>";
