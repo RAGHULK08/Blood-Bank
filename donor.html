@@ -502,7 +502,16 @@
                 });
             }
         }
-
+        Swal.fire({
+        title: "LIFESAFE",
+        text: "Sign-up successful! You can now log in with your credentials.",
+        icon: "success",
+        confirmButtonText: "OK",
+        imageUrl: "lifesafe.jpeg", // Replace with actual logo URL
+        imageWidth: 100,
+        imageHeight: 100,
+        imageAlt: "LIFESAFE Logo"
+    });
         function notifyNearbyDonors(city, bloodGroup) {
             const donors = [
                 { name: "Donor 1", city: "Chennai", bloodGroup: "A+", contact: "1234567890" },
