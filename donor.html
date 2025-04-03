@@ -8,6 +8,13 @@
     <title>LIFESAFE</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Universal box-sizing */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -15,6 +22,8 @@
             background-color: #f7f7f7;
             color: #333;
             animation: fadeIn 1s ease-in-out;
+            /* Adjust padding-top to account for fixed header (approx. 120px) and fixed nav (approx. 60px) */
+            padding-top: 180px;
         }
 
         @keyframes fadeIn {
@@ -36,6 +45,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
         header h1 {
@@ -67,6 +80,12 @@
             padding: 0.5rem 0;
             text-align: center;
             border-bottom: 1px solid #b03a2e;
+            position: fixed;
+            top: 120px;
+            /* Positioned directly below the header */
+            width: 100%;
+            z-index: 999;
+            margin-top: 10px;
         }
 
         nav a {
@@ -332,7 +351,8 @@
 
         .error-message {
             color: #e74c3c;
-            margin-top: 0.5rem;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
             font-size: 0.9rem;
             animation: shake 0.5s;
         }
@@ -401,6 +421,12 @@
             <form id="donorForm">
                 <label for="donorName">Donor Name:</label>
                 <input type="text" id="donorName" placeholder="Enter your name" required>
+                <div id="nameError" class="error-message"></div>
+
+                <label for="donorAge">Age:</label>
+                <select id="donorAge" required>
+                    <option value="">Select Age</option>
+                </select>
 
                 <label for="donorCity">City:</label>
                 <select id="donorCity" required>
@@ -430,6 +456,7 @@
 
                 <label for="donorContact">Contact:</label>
                 <input type="text" id="donorContact" placeholder="Enter your contact number" required>
+                <div id="contactError" class="error-message"></div>
 
                 <label for="donationQuantity">Donation Quantity (ml):</label>
                 <select id="donationQuantity" required>
@@ -465,6 +492,15 @@
             "Madurai": ["Apollo Hospitals Madurai", "Meenakshi Mission Hospital"],
             "Chengalpattu": ["Chengalpattu Medical College Hospital"]
         };
+
+        // Populate age options from 18 to 60
+        const donorAgeSelect = document.getElementById("donorAge");
+        for (let i = 18; i <= 60; i++) {
+            let option = document.createElement("option");
+            option.value = i;
+            option.textContent = i;
+            donorAgeSelect.appendChild(option);
+        }
 
         function populateHospitals(selectedCity) {
             const hospitalDropdown = document.getElementById("donorHospital");
@@ -502,16 +538,7 @@
                 });
             }
         }
-        Swal.fire({
-        title: "LIFESAFE",
-        text: "Sign-up successful! You can now log in with your credentials.",
-        icon: "success",
-        confirmButtonText: "OK",
-        imageUrl: "lifesafe.jpeg", // Replace with actual logo URL
-        imageWidth: 100,
-        imageHeight: 100,
-        imageAlt: "LIFESAFE Logo"
-    });
+
         function notifyNearbyDonors(city, bloodGroup) {
             const donors = [
                 { name: "Donor 1", city: "Chennai", bloodGroup: "A+", contact: "1234567890" },
@@ -535,15 +562,39 @@
             e.preventDefault();
 
             const donorName = document.getElementById('donorName').value.trim();
+            const donorAge = document.getElementById('donorAge').value;
             const donorCity = document.getElementById('donorCity').value;
             const donorHospital = document.getElementById('donorHospital').value;
             const donorBloodGroup = document.getElementById('donorBloodGroup').value;
             const donorContact = document.getElementById('donorContact').value.trim();
             const donationQuantity = document.getElementById('donationQuantity').value;
 
+            // Validate donor name (allow only letters and spaces)
+            const nameRegex = /^[A-Za-z\s]+$/;
+            if (!nameRegex.test(donorName)) {
+                document.getElementById("nameError").textContent = "Please provide a valid name (letters only).";
+                return;
+            } else {
+                document.getElementById("nameError").textContent = "";
+            }
+
+            // Validate donor contact (only digits and exactly 10 digits)
+            const contactRegex = /^\d+$/;
+            if (!contactRegex.test(donorContact)) {
+                document.getElementById("contactError").textContent = "Please provide a valid phone number (digits only).";
+                return;
+            } else if (donorContact.length !== 10) {
+                document.getElementById("contactError").textContent = "Phone number must be 10 digits.";
+                return;
+            } else {
+                document.getElementById("contactError").textContent = "";
+            }
+
+            // Capture current date
             const donationDate = new Date().toLocaleDateString();
             donationHistory.push({
                 name: donorName,
+                age: donorAge,
                 city: donorCity,
                 hospital: donorHospital,
                 bloodGroup: donorBloodGroup,
