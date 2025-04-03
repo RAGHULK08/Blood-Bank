@@ -8,6 +8,14 @@
     <title>LIFESAFE</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Universal Box-Sizing for consistent width calculations */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* Adjust body padding-top to accommodate fixed header + nav */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -15,6 +23,8 @@
             background-color: #f7f7f7;
             color: #333;
             animation: fadeIn 1s ease-in-out;
+            padding-top: 180px;
+            /* header + nav height */
         }
 
         @keyframes fadeIn {
@@ -27,6 +37,7 @@
             }
         }
 
+        /* Fixed header */
         header {
             background-color: #e74c3c;
             color: white;
@@ -36,6 +47,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
         header h1 {
@@ -62,11 +77,18 @@
             }
         }
 
+        /* Fixed navigation below header */
         nav {
             background-color: #c0392b;
             padding: 0.5rem 0;
             text-align: center;
             border-bottom: 1px solid #b03a2e;
+            position: fixed;
+            top: 120px;
+            /* Adjust to match header height */
+            width: 100%;
+            z-index: 999;
+            margin-top: 10px;
         }
 
         nav a {
@@ -275,7 +297,7 @@
             }
         }
 
-        /* Form Styles */
+        /* Form Styles - uniform 100% width */
         form {
             background-color: #fff;
             padding: 2rem;
@@ -434,6 +456,7 @@
             <form id="receiverForm">
                 <label for="patientName">Patient Name:</label>
                 <input type="text" id="patientName" placeholder="Enter patient name" required>
+                <div id="patientNameError" class="error-message"></div>
 
                 <label for="requestCity">City:</label>
                 <select id="requestCity" required>
@@ -463,8 +486,8 @@
 
                 <label for="patientContact">Contact:</label>
                 <input type="text" id="patientContact" placeholder="Enter contact number" required>
+                <div id="patientContactError" class="error-message"></div>
 
-                <!-- New Quantity Field -->
                 <label for="requestQuantity">Quantity (ml):</label>
                 <select id="requestQuantity" required>
                     <option value="">Select Quantity</option>
@@ -486,7 +509,7 @@
         <p>&copy; 2024 LIFESAFE BLOOD BANK. All rights reserved.</p>
     </footer>
     <script>
-        // Update bloodInventory values to ml (conversion factor: 350 ml per unit)
+        // Blood inventory simulation with values in ml (using conversion factor of 350 ml per unit)
         let bloodInventory = {
             "Chennai": {
                 "Apollo Hospitals Chennai": {
@@ -613,9 +636,7 @@
         }
 
         function updateInventoryDisplay(inventoryData) {
-            let displayHtml = '<table>';
-            displayHtml += '<thead><tr><th>City</th><th>Hospital</th><th>Blood Group</th><th>Quantity (ml)</th></tr></thead>';
-            displayHtml += '<tbody>';
+            let displayHtml = '<thead><tr><th>City</th><th>Hospital</th><th>Blood Group</th><th>Quantity (ml)</th></tr></thead><tbody>';
             for (let city in inventoryData) {
                 for (let hospital in inventoryData[city]) {
                     for (let group in inventoryData[city][hospital]) {
@@ -630,7 +651,7 @@
                     }
                 }
             }
-            displayHtml += '</tbody></table>';
+            displayHtml += '</tbody>';
             const inventoryDisplayDiv = document.getElementById("inventoryDisplay");
             inventoryDisplayDiv.innerHTML = '';
             const table = document.createElement('table');
@@ -670,6 +691,27 @@
             const patientContact = document.getElementById('patientContact').value.trim();
             const requestQuantity = document.getElementById('requestQuantity').value;
 
+            // Validate patient name (letters and spaces only)
+            const nameRegex = /^[A-Za-z\s]+$/;
+            if (!nameRegex.test(patientName)) {
+                document.getElementById("patientNameError").textContent = "Please provide a valid name (letters only).";
+                return;
+            } else {
+                document.getElementById("patientNameError").textContent = "";
+            }
+
+            // Validate patient contact (only digits and must be exactly 10 digits)
+            const contactRegex = /^\d+$/;
+            if (!contactRegex.test(patientContact)) {
+                document.getElementById("patientContactError").textContent = "Please provide a valid phone number (digits only).";
+                return;
+            } else if (patientContact.length !== 10) {
+                document.getElementById("patientContactError").textContent = "Phone number must be 10 digits.";
+                return;
+            } else {
+                document.getElementById("patientContactError").textContent = "";
+            }
+
             let bloodAvailable = false;
             let hospitalWithBlood = '';
             let cityWithBlood = '';
@@ -698,6 +740,7 @@
 
         fetchBloodInventory().then(initialInventoryData => {
             updateInventoryDisplay(initialInventoryData);
+            // Pre-populate hospital dropdown for initial city if needed.
             populateHospitals("Chennai");
             setInterval(() => {
                 fetchBloodInventory().then(updateInventoryDisplay);
