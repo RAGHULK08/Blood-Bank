@@ -228,15 +228,69 @@
 </head>
 
 <body>
-@@ -259,7 +42,6 @@
+    <header>
+        <img src="lifesafe.jpeg" alt="Blood Bank Logo">
+        <h1>LIFESAFE BLOOD BANK</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+    </nav>
+    <div class="container" id="authContainer">
+        <div class="toggle-buttons">
+            <button id="loginTab" class="active" onclick="showLogin()">Login</button>
+            <button id="signupTab" onclick="showSignup()">Sign Up</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="loginFormContainer">
+            <h2>Login</h2>
+            <form id="loginForm" action="connect.php" method="POST">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" name="loginEmail" placeholder="Enter email" required>
+                <div id="loginEmailError" class="error-message"></div>
+
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter password" required>
+                <div id="loginPasswordError" class="error-message"></div>
+
+                <label for="loginRole">Role:</label>
+                <select id="loginRole" name="loginRole" required>
+                    <option value="">Select Role</option>
+                    <option value="donor">Donor</option>
+                    <option value="receiver">Receiver</option>
                 </select>
                 <div id="loginRoleError" class="error-message"></div>
 
-                <!-- Inline error message for authentication errors -->
                 <div id="loginAuthError" class="error-message"></div>
 
                 <button type="submit" class="submit-btn">Login</button>
-@@ -290,245 +72,10 @@
+            </form>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div id="signupFormContainer" style="display:none;">
+            <h2>Sign Up</h2>
+            <form id="signupForm" action="connect.php" method="POST">
+                <label for="signupEmail">Email:</label>
+                <input type="email" id="signupEmail" name="signupEmail" placeholder="Enter email" required>
+                <div id="signupEmailError" class="error-message"></div>
+
+                <label for="signupPassword">Password:</label>
+                <input type="password" id="signupPassword" name="signupPassword" placeholder="Choose a password"
+                    required>
+                <div id="signupPasswordError" class="error-message"></div>
+
+                <label for="signupRole">Role:</label>
+                <select id="signupRole" name="signupRole" required>
+                    <option value="">Select Role</option>
+                    <option value="donor">Donor</option>
+                    <option value="receiver">Receiver</option>
+                </select>
+                <div id="signupRoleError" class="error-message"></div>
+
+                <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+        </div>
     </div>
 
     <div class="container content">
